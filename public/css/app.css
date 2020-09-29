@@ -1,0 +1,41 @@
+i.icon{
+    font-size: 2em;
+}
+div.menu{
+    border-radius: 0;
+    width: auto;
+}
+h1{
+    text-align: center;
+}
+
+.blog{
+    border: 2px solid rgb(94, 94, 94);
+    padding: 1em;
+    margin:1em auto;
+}
+button{
+    margin:0 auto;
+}
+img.blog{
+    height: 200px;
+    width: auto;
+}
+img.huge{
+    margin:0 auto;
+}
+
+.abc.icon.item {
+    padding:0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.meta{
+    color:grey;
+    text-align: right;
+}.name{
+    text-transform: capitalize;
+}
+p{
+    text-transform: capitalize;
+}

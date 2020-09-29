@@ -1,0 +1,16 @@
+<%- include("partials/header.ejs") %> 
+<div class="ui show">
+    <img src="<%= element.image %> " class="ui huge center alinged image" alt="">
+    <h2><%= element.title %> </h2>
+    <p><%= element.description %> </p>
+    <p class="ui date"><%= element.created.toLocaleTimeString()%> <%=element.created.toDateString() %> </p>
+    <div class="ui buttons">
+        <a href="/blogs/<%= element._id %>/edit"><button class="ui large blue button">Edit</button></a>
+        <div class="or large"></div>
+        <form action="/blogs/<%= element._id %>?_method=DELETE" method="POST">
+            <button class="ui large red button">Delete</button>
+        </form>
+    </div>
+</div>
+
+<%- include("partials/footer.ejs") %> 

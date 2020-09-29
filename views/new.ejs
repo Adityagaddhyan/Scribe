@@ -1,0 +1,24 @@
+<%- include("partials/header.ejs") %> 
+<h1> Create blog</h1>
+
+
+<form action="/blogs" method="POST">
+  <div class="ui form" >
+    <div class="field">
+      <label>Caption</label>
+      <input type="text" rows="2" name="title" >
+    </div>
+      <div class="field">
+          <label>Image URL</label>
+          <input type="text" name="image"   >
+      </div>
+      <div class="field">
+        <label>Text</label>
+        <input type="text"  name="description" id="description">
+      </div>
+      <div>
+        <button type="submit" class="">Submit</button>
+      </div>
+    </form>   
+
+<%- include("partials/footer.ejs") %> 
