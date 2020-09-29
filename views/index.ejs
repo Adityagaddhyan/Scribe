@@ -3,17 +3,17 @@
 <% blogs.forEach(element => { %>
     <div class="ui celled grid">
         <div class="row">
-            <div class="four wide column">
-                <a href="/blogs/<%= element._id  %>"> <img class="ui large image" src=<%= element.image %>></a>
+            <div class="three wide column centered">
+                <a href="/blogs/<%= element._id  %>"> <img class="ui small image" src=<%= element.image %>></a>
             </div>
-            <div class="twelve wide column content">
+            <div class="thirteen wide column content">
                 <div class="ui item">
                     <div class="content">
                         <div class="meta"><%= element.created.toLocaleTimeString()%> <%=element.created.toDateString() %></div>
                         <a href="/blogs/<%= element._id  %>" class="header">
                             <div class="name"><h2><%= element.title  %></h2></div>
                         </a>
-                        <p class="description"><%= element.description %></p>
+                        <p class="description"><%= element.description.substring(0,100) %>...<a href="/blogs/<%= element._id  %>">Read More</a></p>
                     </div>
                 </div>
             </div>

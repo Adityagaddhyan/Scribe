@@ -39,3 +39,11 @@ img.huge{
 p{
     text-transform: capitalize;
 }
+.three.wide.columns{
+    text-align: center;
+    padding: auto auto;
+    margin: auto auto;
+}
+.bodystart{
+    margin-top:5%;
+}

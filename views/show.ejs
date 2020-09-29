@@ -8,9 +8,10 @@
         <a href="/blogs/<%= element._id %>/edit"><button class="ui large blue button">Edit</button></a>
         <div class="or large"></div>
         <form action="/blogs/<%= element._id %>?_method=DELETE" method="POST">
-            <button class="ui large red button">Delete</button>
+            <button class="ui large red button" onclick="document.getElementById('id01').style.display='block'">Delete</button>
         </form>
     </div>
 </div>
+
 
 <%- include("partials/footer.ejs") %> 
