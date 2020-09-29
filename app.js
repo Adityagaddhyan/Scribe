@@ -2,6 +2,7 @@ const express=require('express');
 const bodyParser=require('body-parser');
 const mongoose=require("mongoose");
 const methodOverride=require("method-override");
+const expressSanitizer=require("express-sanitizer");
 const { static } = require('express');
 //APP CONFIG
 const app=express();
@@ -13,6 +14,7 @@ mongoose.connect("mongodb://localhost:27017/blogdb",{useNewUrlParser:true,useUni
 });
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(expressSanitizer());
 //host public dir
 app.use(express.static("public"));
 
@@ -47,10 +49,10 @@ app.get("/blogs/new",(req,res)=>{
 });
 //CREATE
 app.post("/blogs",(req,res)=>{
-    console.log("POST");
-    var Title1=req.body.title;
-    var Description1=req.body.description;
-    var Image1=req.body.image;
+    console.log("POST");req.body
+    var Title1=req.sanitize(req.body.title);
+    var Description1=req.sanitize(req.body.description);
+    var Image1=req.sanitize(req.body.image);
     var newData=new Blog({title:Title1,image:Image1,description:Description1});
     newData.save({w:1},(err,u)=>{
         if(err){
@@ -93,7 +95,7 @@ app.get("/blogs/:id/edit",(req,res)=>{
 });
 //UPDATE
 app.put("/blogs/:id",(req,res)=>{
-    Blog.findByIdAndUpdate(req.params.id,{$set: req.body.updates},{new:true},(err,updated)=>{
+    Blog.findByIdAndUpdate(req.sanitize(req.params.id),{$set: req.sanitize(req.body.updates)},{new:true},(err,updated)=>{
         if(err){
             console.log("EDIT failed");
             res.redirect("/blogs");
