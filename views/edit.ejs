@@ -1,7 +1,6 @@
 <%- include("partials/header.ejs") %> 
 <h1> Edit blog <%= element.title %> </h1>
 
-
 <form action="/blogs/<%= element._id %>?_method=PUT" method="POST">
   <div class="ui form" >
     <div class="field">

@@ -19,13 +19,9 @@ app.use(expressSanitizer());
 app.use(express.static("public"));
 
 // MONGOOSE MODEL
-var schema_blog=new mongoose.Schema({
-    title:String,
-    image:String,
-    description:String,
-    created:{type: Date, default: Date.now}
-});
-var Blog=mongoose.model("blog",schema_blog);
+const Blog=require("./models/blogModel.js").blogModel;
+const User=require("./models/userModel.js").userModel;
+
 
 // RESTful Routes
 //INDEX
@@ -73,7 +69,7 @@ app.get("/blogs/:id",(req,res)=>{
             res.redirect('/blogs');
         }
         else{
-            console.log("VIEWING"+req.params.id)
+            console.log("VIEWING "+req.params.id)
             res.render("show",{element:found})
         }
     })
@@ -87,7 +83,7 @@ app.get("/blogs/:id/edit",(req,res)=>{
             res.render("/blogs");
         }
         else{
-            console.log("post EDITED")
+            console.log("post EDIT page")
             res.render("edit",{element:found});
 
         }
@@ -95,7 +91,7 @@ app.get("/blogs/:id/edit",(req,res)=>{
 });
 //UPDATE
 app.put("/blogs/:id",(req,res)=>{
-    Blog.findByIdAndUpdate(req.sanitize(req.params.id),{$set: req.sanitize(req.body.updates)},{new:true},(err,updated)=>{
+    Blog.findByIdAndUpdate(req.sanitize(req.params.id),{$set: req.body.updates},{returnOriginal:false},(err,updated)=>{
         if(err){
             console.log("EDIT failed");
             res.redirect("/blogs");
