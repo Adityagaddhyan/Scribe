@@ -9,8 +9,7 @@ var schema_blog=new mongoose.Schema({
     description:String,
     created:{type: Date, default: Date.now},
     likes: Number,
-    dislikes: Number,
-    
+    dislikes: Number    
 });
 var Blog=mongoose.model("blog",schema_blog);
 module.exports.blogModel=Blog;
