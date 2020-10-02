@@ -10,9 +10,8 @@ router.get("/new", (req, res) => {
 });
 //CREATE
 router.get("/", async (req, res) => {
-    // res.send("abcd");
     console.log("log 1");
-    await Blog.find({"_id": "5f7759938d35c61875a5108b"}).exec(function (err, result) {
+    await Blog.find({}).limit(10).exec(function (err, result) {
         console.log(result);    
         if (err) {
 
@@ -20,8 +19,7 @@ router.get("/", async (req, res) => {
         }
         else {
             console.log("log 2");
-            res.send("ihb ");
-            // res.render("../views/index", { blogs: result });
+            res.render("../views/index", { blogs: result });
         }
 
     console.log("log 3");
