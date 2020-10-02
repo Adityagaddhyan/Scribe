@@ -3,21 +3,31 @@ var router=express.Router();
 var Blog=require("../models/blogModel");
 var mongoose=require("mongoose");
 mongoose.set('useFindAndModify', false);
+var MongoClient = require('mongodb').MongoClient;
 //NEW ROUTE
 router.get("/new", (req, res) => {
     res.render("new");
 });
 //CREATE
-
-router.get("/", (req, res) => {
-    Blog.find({}).limit(10).exec(function (err, result) {
+router.get("/", async (req, res) => {
+    // res.send("abcd");
+    console.log("log 1");
+    await Blog.find({"_id": "5f7759938d35c61875a5108b"}).exec(function (err, result) {
+        console.log(result);    
         if (err) {
+
             console.log("error");
         }
         else {
-            res.render("index", { blogs: result });
+            console.log("log 2");
+            res.send("ihb ");
+            // res.render("../views/index", { blogs: result });
         }
+
+    console.log("log 3");
     });
+    console.log("log 4");
+
 });
 router.post("/", (req, res) => {
     console.log("POST"); req.body
