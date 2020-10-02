@@ -7,13 +7,13 @@ const { static } = require('express');
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const session=require("express-session");
-// const connectMongo=require("connect-mongo")(session);
+const mongoStore=require("connect-mongo")(session);
 //APP CONFIG
 const app = express();
 app.use(methodOverride("_method"));
 const PORT = 3030;
 mongoose.connect("mongodb://localhost:27017/blogdb", { useNewUrlParser: true, useUnifiedTopology: true }, err => {
-    if (err) console.log("Connection to database failed1");
+    if (err) console.log("Connection to database failed");
     else console.log("Connection to database established")
 });
 app.set("view engine", "ejs");
@@ -21,6 +21,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitizer());
 //host public dir
 app.use(express.static("public"));
+
+
+//sessionnstore
+const sessionStore = new mongoStore({
+    mongooseConnection: mongoose.connection,
+    collection: "sessions"
+});
+// express session
+app.use(session({
+    secret: "secret message",
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore,
+    cookie: {
+        maxAge: 12000000
+    }
+}));
 
 // MONGOOSE MODEL
 const User = require("./models/userModel.js").userModel;
