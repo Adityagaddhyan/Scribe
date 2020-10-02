@@ -8,4 +8,4 @@ var schema_comment=new mongoose.Schema({
     }
 });
 var Comment=mongoose.model("comment",schema_comment);
-module.exports.userComment=Comment;
+module.exports.commentModel=Comment;
