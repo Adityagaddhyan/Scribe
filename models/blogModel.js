@@ -18,4 +18,4 @@ var schema_blog=new mongoose.Schema({
     }]
 });
 var Blog=mongoose.model("blog",schema_blog);
-module.exports.blogModel=Blog;
+module.exports=Blog;
