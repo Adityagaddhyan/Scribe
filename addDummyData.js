@@ -44,7 +44,5 @@ request(url,function(err,res,body){
 });
 }
 
+Blog.deleteMany({},fakedatafun);
 
-
-
-fakedatafun();
