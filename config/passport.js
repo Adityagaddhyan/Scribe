@@ -1,10 +1,17 @@
 const passport=require("passport");
 const localStrategy=require("passport-local");
 const bcrypt=require("bcrypt");
-
+var User=require("../models/userModel").userModel;
+var mongoose=require("mongoose"),connection;
+if(!connection){
+    mongoose.connect("mongodb://localhost:27017/blogdb",{ useNewUrlParser: true, useUnifiedTopology: true }, err => {
+        if (err) console.log("Connection to database failed");
+        else console.log("Connection to database established")
+    })
+}
 const strategy=new localStrategy(
-    (username,password,done)=>{
-        username.findOne({username: username},function(err,user){
+    (Username,password,done)=>{
+        User.findOne({username: Username},function(err,user){
             if(err){
                 return done(err);
             }
@@ -22,5 +29,4 @@ const strategy=new localStrategy(
         });
     }
 );
-
-module.exports.strategy=strategy;
+passport.use(strategy);

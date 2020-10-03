@@ -40,6 +40,7 @@ app.use(session({
 }));
 
 //passport
+const strategy=require("./config/passport.js")
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -68,6 +69,10 @@ const { deserializeUser } = require('passport');
 app.use('/',indexRoutes);
 app.use('/blogs',blogsRoutes);
 
+
+app.all("*",(req,res)=>{
+    res.send("this url cannnot be found");
+})
 app.listen(PORT, () =>
     console.log("SERVER IS RUNNING"));
 

@@ -10,11 +10,8 @@ router.get("/new", (req, res) => {
 });
 //CREATE
 router.get("/", async (req, res) => {
-    console.log("log 1");
     await Blog.find({}).limit(10).exec(function (err, result) {
-        console.log(result);    
         if (err) {
-
             console.log("error");
         }
         else {

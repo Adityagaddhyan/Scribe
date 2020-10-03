@@ -21,8 +21,12 @@ router.get('/login',(req,res)=>{
 router.post("/login",passport.authenticate('local',{
     successRedirect:'/',
     failureRedirect:'/login',
-    failureFlash:true
 }));
+router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+  
 router.get("/register",(req,res)=>{
     res.render("register");
 })
@@ -44,6 +48,18 @@ router.post("/register",(req,res)=>{
     res.redirect("/")
     
 });
+var isauth=require("../config/isauth.js").isauth;
+router.get("/isauth",isauth,(req,res,next)=>{
+    res.send("this is authenticated route");
+})
+var isadmin=require("../config/isauth").isadmin;
+router.get("/isadmin",isadmin,(req,res,next)=>{
+    if(res.status(200)){
+        res.send("you are the admin")
+    }
+
+});
+
 
 
 module.exports=router;
