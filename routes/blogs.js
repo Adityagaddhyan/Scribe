@@ -18,13 +18,10 @@ router.get("/", async (req, res) => {
             console.log("error");
         }
         else {
-            console.log("log 2");
             res.render("../views/index", { blogs: result });
         }
 
-    console.log("log 3");
     });
-    console.log("log 4");
 
 });
 router.post("/", (req, res) => {

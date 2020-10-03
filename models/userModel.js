@@ -4,7 +4,8 @@ var schema_user=new mongoose.Schema({
     
     name:String,
     username:String,
-    password:String,
+    hash:String,
+    salt:String,
     blogs:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:Blog

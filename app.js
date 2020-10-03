@@ -35,9 +35,26 @@ app.use(session({
     saveUninitialized: true,
     store: sessionStore,
     cookie: {
-        maxAge: 12000
+        maxAge: 12000000
     }
 }));
+
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+//serialize
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+  
+// deserializeUser
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
 
 // MONGOOSE MODEL
 const User = require("./models/userModel.js").userModel;
@@ -47,6 +64,7 @@ const Blog = require("./models/blogModel.js").blogModel;
 //importing routes
 var indexRoutes=require('./routes/index.js');
 var blogsRoutes=require('./routes/blogs.js');
+const { deserializeUser } = require('passport');
 app.use('/',indexRoutes);
 app.use('/blogs',blogsRoutes);
 
