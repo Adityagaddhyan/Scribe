@@ -16,10 +16,10 @@ router.get("/", (req, res) => {
 });
 router.get('/login',(req,res)=>{
     console.log("redirecting to login page");
-    res.render("login")
+    res.render("login",{curUser:req.user})
 });
 router.post("/login",passport.authenticate('local',{
-    successRedirect:'/',
+    successRedirect:'/' ,
     failureRedirect:'/login',
 }));
 router.get('/logout', function(req, res){
@@ -28,7 +28,7 @@ router.get('/logout', function(req, res){
   });
   
 router.get("/register",(req,res)=>{
-    res.render("register");
+    res.render("register",{curUser:req.user});
 })
 router.post("/register",(req,res)=>{
     console.log(req.body.password);
@@ -45,7 +45,7 @@ router.post("/register",(req,res)=>{
         });
     })
     // console.log(Hash);
-    res.redirect("/")
+    res.redirect("/login")
     
 });
 var isauth=require("../config/isauth.js").isauth;

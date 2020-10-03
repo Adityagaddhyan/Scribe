@@ -52,3 +52,7 @@ p{
     width:50%;
     margin: 20% auto;
 }
+
+a.capitalise{
+    text-transform: uppercase;;
+}

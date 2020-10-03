@@ -27,9 +27,14 @@
                     <div class=" hover item "><i class="alternate github icon" title  ="View project on GitHub" ></i></div></a>
                 <a href="https://www.linkedin.com/in/adityagaddhyan/" class="abc linkedin icon item abc" target="blank" data-content="View project on GitHub" title  ="Meet the developer">
                     <div class=" item  "><i class="linkedin icon"></i></div></a>
-                    <a href="/login" class="item">Login</a>
-                    <a href="/register" class="item">Register</a>
-                    
+                    <% if(!curUser){ %> 
+                        <a href="/login" class="item">Login</a>
+                        <a href="/register" class="item">Register</a>
+                    <% }else{ %> 
+                        <a href="/LOGOUT" class="item">logout</a>
+                        <a href="/LOGOUT" class="capitalise item "><%= curUser.name %> </a>
+
+                    <% } %> 
 
                 
             </div>

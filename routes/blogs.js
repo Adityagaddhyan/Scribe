@@ -4,9 +4,10 @@ var Blog=require("../models/blogModel");
 var mongoose=require("mongoose");
 mongoose.set('useFindAndModify', false);
 var MongoClient = require('mongodb').MongoClient;
+var isauth=require("../config/isauth").isauth;
 //NEW ROUTE
-router.get("/new", (req, res) => {
-    res.render("new");
+router.get("/new", isauth,(req, res) => {
+    res.render("new",{curUser:req.user});
 });
 //CREATE
 router.get("/", async (req, res) => {
@@ -15,13 +16,13 @@ router.get("/", async (req, res) => {
             console.log("error");
         }
         else {
-            res.render("../views/index", { blogs: result });
+            res.render("../views/index", { blogs: result ,curUser:req.user});
         }
 
     });
 
 });
-router.post("/", (req, res) => {
+router.post("/",isauth, (req, res) => {
     console.log("POST"); req.body
     var Title1 = req.sanitize(req.body.title);
     var Description1 = req.sanitize(req.body.description);
@@ -48,12 +49,12 @@ router.get("/:id", (req, res) => {
         }
         else {
             console.log("VIEWING " + req.params.id)
-            res.render("show", { element: found })
+            res.render("show", { element: found ,curUser:req.user})
         }
     })
 })
 //EDIT
-router.get("/:id/edit", (req, res) => {
+router.get("/:id/edit", isauth,(req, res) => {
     var ID = req.params.id;
     Blog.findById(ID, (err, found) => {
         if (err) {
@@ -62,7 +63,7 @@ router.get("/:id/edit", (req, res) => {
         }
         else {
             console.log("post EDIT page")
-            res.render("edit", { element: found });
+            res.render("edit", { element: found,curUser:req.user });
 
         }
     });
@@ -81,7 +82,7 @@ router.put("/:id", (req, res) => {
     });
 })
 //DELETE
-router.delete("/:id", (req, res) => {
+router.delete("/:id",isauth, (req, res) => {
     Blog.findByIdAndDelete(req.params.id, err => {
         if (err) {
             console.log("unable to DELETE");
