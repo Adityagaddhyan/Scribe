@@ -1,15 +1,12 @@
 const bcrypt=require("bcrypt");
-const saltRounds=20000;
+const { Passport } = require("passport");
+const saltRounds=12;
 
-genPassword=(password)=>{
-    bcrypt.genSalt(saltRounds,function(err,salt){
-        bcrypt.hash(password,salt,(err,hash)=>{
-            return{
-                salt:salt,
-                hash:hash
-            }
-        })
+const genPassword = function(password){
+    return bcrypt.hash(password, saltRounds).then(function(hash) {
+        console.log(hash);
+        return hash;
     });
 }
+module.exports=exports=genPassword;
 
-module.exports.genPassword=this.genPassword;

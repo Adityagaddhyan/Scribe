@@ -47,3 +47,8 @@ p{
 .bodystart{
     margin-top:5%;
 }
+.form{
+    padding:auto;
+    width:50%;
+    margin: 20% auto;
+}
