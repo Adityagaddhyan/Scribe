@@ -6,7 +6,8 @@ var schema_comment=new mongoose.Schema({
     author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
-    }
+    },
+    authorName:String
 });
 var Comment=mongoose.model("comment",schema_comment);
 module.exports.commentModel=Comment;

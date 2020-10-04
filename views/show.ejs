@@ -1,18 +1,24 @@
-<%- include("partials/header.ejs") %> 
+<%- include("partials/header.ejs") %>
 <div class="ui show">
     <img src="<%= element.image %> " class="ui huge center alinged image" alt="">
     <h2><%= element.title %> </h2>
     <p><%= element.description %> </p>
     <p class="ui date"><%= element.created.toLocaleTimeString()%> <%=element.created.toDateString() %> </p>
-    <%- include("partials/comment.ejs") %> 
+    <% var temp=element.comments;temp.forEach((key){ %>
+        <%- include("partials/comments.ejs") %> 
+    <% });%>  
+    <form action="/blogs/<%= element._id %>/newcomment" class="ui reply form commentbox" method="POST">
+        <input name="comment" type="text" placeholder="Add Comment">
+    </form>
+
     <div class="ui buttons">
         <a href="/blogs/<%= element._id %>/edit"><button class="ui large blue button">Edit</button></a>
         <div class="or large"></div>
         <form action="/blogs/<%= element._id %>?_method=DELETE" method="POST">
-            <button class="ui large red button" >Delete</button>
+            <button class="ui large red button">Delete</button>
         </form>
     </div>
 </div>
 
 
-<%- include("partials/footer.ejs") %> 
+<%- include("partials/footer.ejs") %>

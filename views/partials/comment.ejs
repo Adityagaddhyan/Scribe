@@ -1,28 +1,21 @@
 <div class="ui comments">
-    <div class="comment">
-      <a class="avatar">
-        <i class="circular large inverted teal user icon"></i>
-      </a>
-      <div class="content">
-        <a class="author">Dog Doggington</a>
-        <div class="metadata">
-          <div class="date">2 days ago</div>
-        </div>
-        <div class="text">
-          I think this is a great idea and i am voting on it
-        </div>
-        <div class="actions">
-          <a class="reply active">Reply</a>
-          <a class="delete">Delete</a>
-        </div>
-          <div class="field">
-            <form action="/blogs/<%= element._id %>/newcomment" class="ui reply form commentbox" method="POST">
-                <input name="comment" type="text" placeholder="Add Comment">
-            </form>
-          </div>
-          <button type="submit" class="ui button teal submit labeled icon">
-            <i class="icon edit"></i> Add Comment
-          </div>
+  <div class="comment">
+    <a class="avatar">
+      <i class="circular large inverted teal user icon"></i>
+    </a>
+    <div class="content">
+      <a class="author"> </a>
+      <div class="metadata">
+        <div class="date"><%= key.created.toLocaleTimeString()%> <%=key.created.toDateString()  %> </div>
       </div>
+      <div class="text">
+        <%= key.text %>
+      </div>
+      <div class="actions">
+        <a class="reply active">Reply</a>
+        <a class="delete">Delete</a>
+      </div>
+
     </div>
   </div>
+</div>

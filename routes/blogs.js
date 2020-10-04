@@ -1,16 +1,17 @@
-var express=require("express");
-var router=express.Router();
-var Blog=require("../models/blogModel");
+var express = require("express");
+var router = express.Router();
+var Blog = require("../models/blogModel");
+var User = require("../models/userModel.js").userModel;
 const expressSanitizer = require("express-sanitizer");
-var mongoose=require("mongoose");
+var mongoose = require("mongoose");
 const { populate } = require("../models/blogModel");
 mongoose.set('useFindAndModify', false);
 var MongoClient = require('mongodb').MongoClient;
-var isauth=require("../config/isauth").isauth;
+var isauth = require("../config/isauth").isauth;
 router.use(expressSanitizer());
 //NEW ROUTE
-router.get("/new", isauth,(req, res) => {
-    res.render("new",{curUser:req.user});
+router.get("/new", isauth, (req, res) => {
+    res.render("new", { curUser: req.user });
 });
 //CREATE
 router.get("/", async (req, res) => {
@@ -19,13 +20,15 @@ router.get("/", async (req, res) => {
             console.log("error");
         }
         else {
-            res.render("../views/index", { blogs: result ,curUser:req.user});
+            res.render("../views/index", { blogs: result, curUser: req.user });
         }
 
     });
 
 });
-router.post("/",isauth, (req, res) => {
+//post new blog
+
+router.post("/", isauth, (req, res) => {
     console.log("POST"); req.body
     var Title1 = req.sanitize(req.body.title);
     var Description1 = req.sanitize(req.body.description);
@@ -45,22 +48,41 @@ router.post("/",isauth, (req, res) => {
 });
 //SHOW ONE
 router.get("/:id", (req, res) => {
-    Blog.findById(req.params.id, (err, found) => {
+    var comment_ = [];
+    console.log(req.params.id);
+    Blog.findById(req.params.id).exec((err, found) => {
+        // console.log(found.comments);
         if (err) {
             console.log("error in finding blog");
             res.redirect('/blogs');
         }
         else {
-            console.log("VIEWING " + req.params.id)
-            found.populate("comments",(err,comments)=>{
-                console.log(comments);
-                res.render("show", { element: found ,curUser:req.user,comment:comments})
-            })
+            // console.log("VIEWING " + req.params.id)
+            // (found.comments).forEach( (key)=>{
+            //     Comment.findById(key,async (err,com)=>{
+            //         var comm=com;
+            //         console.log(com);
+            //         await comment_.push(comm);
+            //     })
+            // })
+            //  console.log(comment_);
+            // res.render("show", { element: found ,curUser:req.user,comments:comment_})
+            Blog.findById(req.params.id)
+                .populate("comments")
+                .exec(function (err, blogs) {
+                    // console.log(blogs);
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        // console.log(blogs);
+                        res.render("show", { element: blogs, curUser: req.user });
+                    }
+                });
         }
     })
 })
 //EDIT
-router.get("/:id/edit", isauth,(req, res) => {
+router.get("/:id/edit", isauth, (req, res) => {
     var ID = req.params.id;
     Blog.findById(ID, (err, found) => {
         if (err) {
@@ -69,26 +91,32 @@ router.get("/:id/edit", isauth,(req, res) => {
         }
         else {
             console.log("post EDIT page")
-            res.render("edit", { element: found,curUser:req.user });
+            res.render("edit", { element: found, curUser: req.user });
 
         }
     });
 });
 //new comment
-const Comment=require("../models/commentModel").commentModel;
-router.post("/:id/newcomment",isauth,(req,res)=>{
-    console.log(req.body.comment,"new comment")
-        var comment_=req.body.comment;
-        var newComment=new Comment({
-            text:comment_,
-            author:req.user._id
-        })
-        newComment.save().then((result)=>{
-            console.log(result);
-        })
-        // console.log(req.params.id);
-        res.redirect("/blogs/"+req.params.id);
-    
+const Comment = require("../models/commentModel").commentModel;
+router.post("/:id/newcomment", isauth, (req, res) => {
+    console.log(req.body.comment, "new comment")
+    var comment_ = req.body.comment;
+    var newComment = new Comment({
+        text: comment_,
+        author: req.user._id,
+        authorName: User.findOne({ _id: req.user.id }).name
+    });
+    newComment.save().then((result) => {
+        console.log(result);
+        Blog.findById(req.params.id, (err, blog) => {
+            blog.comments.push(result._id);
+            blog.save();
+            console.log(blog);
+        });
+    })
+    // console.log(req.params.id);
+    res.redirect("/blogs/" + req.params.id);
+
 })
 //UPDATE
 router.put("/:id", (req, res) => {
@@ -104,7 +132,7 @@ router.put("/:id", (req, res) => {
     });
 })
 //DELETE
-router.delete("/:id",isauth, (req, res) => {
+router.delete("/:id", isauth, (req, res) => {
     Blog.findByIdAndDelete(req.params.id, err => {
         if (err) {
             console.log("unable to DELETE");
@@ -117,4 +145,4 @@ router.delete("/:id",isauth, (req, res) => {
     });
 });
 
-module.exports=router;
+module.exports = router;
