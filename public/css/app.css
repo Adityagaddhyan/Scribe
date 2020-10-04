@@ -56,3 +56,9 @@ p{
 a.capitalise{
     text-transform: uppercase;;
 }
+form.commentbox{
+    margin-bottom: 1em;
+}
+button.ui.teal.submit.labeled.icon{
+    margin:2em auto;
+}

@@ -4,6 +4,7 @@
     <h2><%= element.title %> </h2>
     <p><%= element.description %> </p>
     <p class="ui date"><%= element.created.toLocaleTimeString()%> <%=element.created.toDateString() %> </p>
+    <%- include("partials/comment.ejs") %> 
     <div class="ui buttons">
         <a href="/blogs/<%= element._id %>/edit"><button class="ui large blue button">Edit</button></a>
         <div class="or large"></div>
