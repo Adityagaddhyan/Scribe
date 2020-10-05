@@ -62,3 +62,8 @@ form.commentbox{
 button.ui.teal.submit.labeled.icon{
     margin:2em auto;
 }
+.commentbox{
+    margin-left: 0;
+    display:block;
+
+}

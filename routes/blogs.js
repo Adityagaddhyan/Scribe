@@ -57,16 +57,6 @@ router.get("/:id", (req, res) => {
             res.redirect('/blogs');
         }
         else {
-            // console.log("VIEWING " + req.params.id)
-            // (found.comments).forEach( (key)=>{
-            //     Comment.findById(key,async (err,com)=>{
-            //         var comm=com;
-            //         console.log(com);
-            //         await comment_.push(comm);
-            //     })
-            // })
-            //  console.log(comment_);
-            // res.render("show", { element: found ,curUser:req.user,comments:comment_})
             Blog.findById(req.params.id)
                 .populate("comments")
                 .exec(function (err, blogs) {
@@ -74,7 +64,7 @@ router.get("/:id", (req, res) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        // console.log(blogs);
+                        // console.log(blogs.comment.length;
                         res.render("show", { element: blogs, curUser: req.user });
                     }
                 });
@@ -102,19 +92,18 @@ router.post("/:id/newcomment", isauth, (req, res) => {
     console.log(req.body.comment, "new comment")
     var comment_ = req.body.comment;
     var newComment = new Comment({
-        text: comment_,
+        text: req.body.comment,
         author: req.user._id,
-        authorName: User.findOne({ _id: req.user.id }).name
+        authorName: User.findOne({ _id: req.user.id }).name,
+        authorName:req.user.name
     });
     newComment.save().then((result) => {
         console.log(result);
         Blog.findById(req.params.id, (err, blog) => {
             blog.comments.push(result._id);
             blog.save();
-            console.log(blog);
         });
     })
-    // console.log(req.params.id);
     res.redirect("/blogs/" + req.params.id);
 
 })

@@ -4,20 +4,41 @@
     <h2><%= element.title %> </h2>
     <p><%= element.description %> </p>
     <p class="ui date"><%= element.created.toLocaleTimeString()%> <%=element.created.toDateString() %> </p>
-    <% var temp=element.comments;temp.forEach((key){ %>
-        <%- include("partials/comments.ejs") %> 
-    <% });%>  
-    <form action="/blogs/<%= element._id %>/newcomment" class="ui reply form commentbox" method="POST">
-        <input name="comment" type="text" placeholder="Add Comment">
+    <% var keys=element.comments %>
+  
+        <div class="ui comments">
+            <h3 class="ui dividing header">Comments</h3>
+            <% keys.forEach((key)=>{%>
+            <div class="comment">
+              <a class="avatar">
+            <i class="circular large inverted teal user icon"></i>
+                
+              </a>
+              <div class="content">
+                <a class="author"><%= key.authorName %> </a>
+                <div class="metadata">
+                  <span class="date"><%= key.created.toLocaleTimeString()%> <%=key.created.toDateString()  %></span>
+                </div>
+                <div class="text">
+                    <%= key.text %>
+                </div>
+                <div class="actions">
+                  <a class="reply">Reply</a>
+                </div>
+              </div>
+            </div>
+        <% }); %> 
+        <form action="/blogs/<%= element._id %>/newcomment" class="ui reply form" method="POST">
+            <input name="comment" type="text" placeholder="Add Comment">
     </form>
-
-    <div class="ui buttons">
-        <a href="/blogs/<%= element._id %>/edit"><button class="ui large blue button">Edit</button></a>
-        <div class="or large"></div>
-        <form action="/blogs/<%= element._id %>?_method=DELETE" method="POST">
-            <button class="ui large red button">Delete</button>
-        </form>
-    </div>
+          </div>
+<div class="ui buttons">
+    <a href="/blogs/<%= element._id %>/edit"><button class="ui large blue button">Edit</button></a>
+    <div class="or large"></div>
+    <form action="/blogs/<%= element._id %>?_method=DELETE" method="POST">
+        <button class="ui large red button">Delete</button>
+    </form>
+</div>
 </div>
 
 
