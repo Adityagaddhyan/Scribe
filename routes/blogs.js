@@ -33,7 +33,8 @@ router.post("/", isauth, (req, res) => {
     var Title1 = req.sanitize(req.body.title);
     var Description1 = req.sanitize(req.body.description);
     var Image1 = req.sanitize(req.body.image);
-    var newData = new Blog({ title: Title1, image: Image1, description: Description1 });
+    var owner_=req.user;
+    var newData = new Blog({ title: Title1, image: Image1, description: Description1 ,owner:owner_});
     newData.save({ w: 1 }, (err, u) => {
         if (err) {
             console.log("Error");
@@ -65,7 +66,9 @@ router.get("/:id", (req, res) => {
                         console.log(err);
                     } else {
                         // console.log(blogs.comment.length;
-                        res.render("show", { element: blogs, curUser: req.user });
+                        User.findById(blogs.owner,(err,owner_)=>{
+                            res.render("show", { element: blogs, curUser: req.user,owner:owner_ });
+                        })
                     }
                 });
         }

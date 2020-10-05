@@ -2,8 +2,11 @@
 <div class="ui show">
     <img src="<%= element.image %> " class="ui huge center alinged image" alt="">
     <h2><%= element.title %> </h2>
+    <p class="grey"></p>
+    <p class="ui date grey">by <%= owner.name %>  <span style="float: right;"><%= element.created.toLocaleTimeString()%> <%=element.created.toDateString() %></span> </p>
+
     <p><%= element.description %> </p>
-    <p class="ui date"><%= element.created.toLocaleTimeString()%> <%=element.created.toDateString() %> </p>
+
     <% var keys=element.comments %>
   
         <div class="ui comments">
