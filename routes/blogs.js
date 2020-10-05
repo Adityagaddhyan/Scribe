@@ -5,9 +5,11 @@ var User = require("../models/userModel.js").userModel;
 const expressSanitizer = require("express-sanitizer");
 var mongoose = require("mongoose");
 const { populate } = require("../models/blogModel");
+const { isOwner } = require("../config/isauth");
 mongoose.set('useFindAndModify', false);
 var MongoClient = require('mongodb').MongoClient;
 var isauth = require("../config/isauth").isauth;
+var idOwner=require("../config/isauth").isOwner;
 router.use(expressSanitizer());
 //NEW ROUTE
 router.get("/new", isauth, (req, res) => {
@@ -33,8 +35,8 @@ router.post("/", isauth, (req, res) => {
     var Title1 = req.sanitize(req.body.title);
     var Description1 = req.sanitize(req.body.description);
     var Image1 = req.sanitize(req.body.image);
-    var owner_=req.user;
-    var newData = new Blog({ title: Title1, image: Image1, description: Description1 ,owner:owner_});
+    var owner_ = req.user;
+    var newData = new Blog({ title: Title1, image: Image1, description: Description1, owner: owner_ });
     newData.save({ w: 1 }, (err, u) => {
         if (err) {
             console.log("Error");
@@ -66,8 +68,8 @@ router.get("/:id", (req, res) => {
                         console.log(err);
                     } else {
                         // console.log(blogs.comment.length;
-                        User.findById(blogs.owner,(err,owner_)=>{
-                            res.render("show", { element: blogs, curUser: req.user,owner:owner_ });
+                        User.findById(blogs.owner, (err, owner_) => {
+                            res.render("show", { element: blogs, curUser: req.user, owner: owner_});
                         })
                     }
                 });
@@ -75,17 +77,22 @@ router.get("/:id", (req, res) => {
     })
 })
 //EDIT
-router.get("/:id/edit", isauth, (req, res) => {
+router.get("/:id/edit", isOwner, (req, res) => {
     var ID = req.params.id;
     Blog.findById(ID, (err, found) => {
-        if (err) {
-            console.log("cannot find the post");
-            res.redirect("/blogs");
-        }
-        else {
-            console.log("post EDIT page")
-            res.render("edit", { element: found, curUser: req.user });
+        if(found.owner.equals(req.user._id)){
+            if (err) {
+                console.log("cannot find the post");
+                res.redirect("/blogs");
+            }
+            else {
+                console.log("post EDIT page")
+                res.render("edit", { element: found, curUser: req.user });
 
+            }
+        }   
+        else{
+            res.send("<h1>You are not authorized to edit this post</h1>");
         }
     });
 });
@@ -98,7 +105,7 @@ router.post("/:id/newcomment", isauth, (req, res) => {
         text: req.body.comment,
         author: req.user._id,
         authorName: User.findOne({ _id: req.user.id }).name,
-        authorName:req.user.name
+        authorName: req.user.name
     });
     newComment.save().then((result) => {
         console.log(result);
@@ -111,7 +118,7 @@ router.post("/:id/newcomment", isauth, (req, res) => {
 
 })
 //UPDATE
-router.put("/:id", (req, res) => {
+router.put("/:id",isOwner, (req, res) => {
     Blog.findByIdAndUpdate(req.sanitize(req.params.id), { $set: req.body.updates }, { returnOriginal: false }, (err, updated) => {
         if (err) {
             console.log("EDIT failed");
@@ -124,7 +131,7 @@ router.put("/:id", (req, res) => {
     });
 })
 //DELETE
-router.delete("/:id", isauth, (req, res) => {
+router.delete("/:id", isOwner, (req, res) => {
     Blog.findByIdAndDelete(req.params.id, err => {
         if (err) {
             console.log("unable to DELETE");

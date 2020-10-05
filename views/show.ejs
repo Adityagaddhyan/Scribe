@@ -3,7 +3,8 @@
 <div class="ui show">
     <img src="<%= element.image %> " class="ui huge center alinged image" alt="">
     <h2><%= element.title %> </h2>
-    <p class="ui date grey">by <a class="grey"><%= owner.name %> </a><span style="float: right;"><%= element.created.toLocaleTimeString()%>
+    <p class="ui date grey">by <a class="grey"><%= owner.name %> </a><span
+            style="float: right;"><%= element.created.toLocaleTimeString()%>
             <%=element.created.toDateString() %></span> </p>
     <p><%= element.description %> </p>
 
@@ -43,7 +44,6 @@
             <button class="ui large red button">Delete</button>
         </form>
     </div>
-<% } %> 
 </div>
 
 
