@@ -43,7 +43,6 @@ app.use(session({
 const strategy=require("./config/passport.js")
 app.use(passport.initialize());
 app.use(passport.session());
-
 //serialize
 passport.serializeUser(function(user, done) {
     done(null, user.id);
