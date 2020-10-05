@@ -1,4 +1,5 @@
 const Blog = require("../models/blogModel.js")
+const Comment=require("../models/commentModel").commentModel;
 module.exports.isauth = (req, res, next) => {
     if (req.isAuthenticated()) {
         next();
@@ -24,5 +25,18 @@ module.exports.isOwner = (req, res, next) => {
                 res.redirect("back");
             }
         })
+    }
+}
+module.exports.isCommentOwner=(req,res,next)=>{
+    if(req.isAuthenticated()){
+        Comment.findById(req.params.comment_id,(err,foundComment)=>{
+            if(req.user._id.equals(foundComment.author)){
+                next();
+            }
+            else{
+                res.redirect("back");
+            }
+        })
+        
     }
 }

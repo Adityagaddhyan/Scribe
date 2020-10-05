@@ -105,7 +105,7 @@ router.post("/:id/newcomment", isauth, (req, res) => {
         text: req.body.comment,
         author: req.user._id,
         authorName: User.findOne({ _id: req.user.id }).name,
-        authorName: req.user.name
+        authorName: req.user.name,
     });
     newComment.save().then((result) => {
         console.log(result);
@@ -143,5 +143,18 @@ router.delete("/:id", isOwner, (req, res) => {
         }
     });
 });
-
+//DELETE comment
+const isCommentOwner=require("../config/isauth.js").isCommentOwner;
+router.delete("/:id/comment/:comment_id",isCommentOwner,(req,res,next)=>{
+    console.log("trying to delete");
+    Comment.findByIdAndDelete(req.params.comment_id,err=>{
+        if(err){
+            console.log("unable to delete comment");
+        }
+        else{
+            console.log("ducessfully dleted comment");
+            res.redirect("back");
+        }
+    });
+})
 module.exports = router;
