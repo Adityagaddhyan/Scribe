@@ -70,3 +70,7 @@ button.ui.teal.submit.labeled.icon{
 .grey{
     color:grey; 
 }
+#newcomment{
+    margin-left: 0;
+    margin-top: 2em;
+}

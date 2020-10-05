@@ -27,20 +27,27 @@
                     <%= key.text %>
                 </div>
                 <div class="actions">
+                    <% if(curUser && key.author.equals(curUser._id)){%> 
+
                     <form action="/blogs/<%= element._id %>/comment/<%= key._id %>?_method=DELETE" method="POST" id="deletecomment">
-                        <% if(key.author.equals(curUser._id)){%> 
                         <a class="reply" onclick="document.getElementById('deletecomment').submit()">Delete</a>
-                        <% } %> 
                 </form>
+                <% } %> 
+
                 </div>
             </div>  
         </div>
         <% }); %>
-        <form action="/blogs/<%= element._id %>/newcomment" class="ui reply form" method="POST">
-            <input name="comment" type="text" placeholder="Add Comment">
-        </form>
+        <% if(curUser){ %> 
+            <div class="field">
+                <form action="/blogs/<%= element._id %>/newcomment" id="newcomment" class="ui reply form" method="POST">
+                    <input name="comment" type="text" placeholder="Add Comment">
+                </form>
+            </div>
+       
+    <% } %> 
     </div>
-<% if(element.owner.equals(curUser._id)){%> 
+<% if(curUser&& element.owner.equals(curUser._id)){%> 
     <div class="ui buttons">
         <a href="/blogs/<%= element._id %>/edit"><button class="ui large blue button">Edit</button></a>
         <div class="or large"></div>
