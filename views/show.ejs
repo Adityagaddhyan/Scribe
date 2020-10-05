@@ -36,7 +36,7 @@
             <input name="comment" type="text" placeholder="Add Comment">
         </form>
     </div>
-
+<% if(element.owner.equals(curUser._id)){%> 
     <div class="ui buttons">
         <a href="/blogs/<%= element._id %>/edit"><button class="ui large blue button">Edit</button></a>
         <div class="or large"></div>
@@ -44,6 +44,7 @@
             <button class="ui large red button">Delete</button>
         </form>
     </div>
+<% } %> 
 </div>
 
 
