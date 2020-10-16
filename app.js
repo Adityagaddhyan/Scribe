@@ -11,7 +11,7 @@ const mongoStore=require("connect-mongo")(session);
 //APP CONFIG
 const app = express();
 app.use(methodOverride("_method"));
-const PORT = 3030;
+const PORT = process.env.PORT||3030;
 mongoose.connect("mongodb://localhost:27017/blogdb", { useNewUrlParser: true, useUnifiedTopology: true }, err => {
     if (err) console.log("Connection to database failed");
     else console.log("Connection to database established")
